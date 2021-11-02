@@ -14,7 +14,6 @@ class PostItemViewHolder(
         parent.viewBinding(PostItemBinding::inflate)
 ) {
     fun bind(postItem: PostItem) = with(binding) {
-        postCardTitle.text = uiHelpers.getTextOfUiString(itemView.context, postItem.postTitle)
+        uiHelpers.setTextOrHide(postCardTitle, postItem.title)
     }
 }
-
