@@ -11,16 +11,14 @@ class PostCardBuilder @Inject constructor() {
         params.mockedPostsData?.posts?.draft?.map {
             cards.add(
                     PostCard(
-                            title = UiStringText(DRAFT_TITLE),
-                            postTitle = UiStringText(it.title ?: NO_TITLE)
+                            title = UiStringText(DRAFT_TITLE)
                     )
             )
         }
         params.mockedPostsData?.posts?.scheduled?.map {
             cards.add(
                     PostCard(
-                            title = UiStringText(SCHEDULED_TITLE),
-                            postTitle = UiStringText(it.title ?: NO_TITLE)
+                            title = UiStringText(SCHEDULED_TITLE)
                     )
             )
         }
