@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.DiffUtil.Callback
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import org.wordpress.android.ui.mysite.MySiteCardAndItem.Card.PostCard.PostItem
 import org.wordpress.android.ui.utils.UiHelpers
+import org.wordpress.android.util.image.ImageManager
 
 class PostItemsAdapter(
+    private val imageManager: ImageManager,
     private val uiHelpers: UiHelpers
 ) : Adapter<PostItemViewHolder>() {
     private val items = mutableListOf<PostItem>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
-        return PostItemViewHolder(parent, uiHelpers)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            PostItemViewHolder(parent, imageManager, uiHelpers)
 
     override fun getItemCount(): Int = items.size
 
