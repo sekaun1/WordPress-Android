@@ -22,7 +22,7 @@
         tools:text="@string/title" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/description"
+        android:id="@+id/excerpt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/featured_image"
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/description"
+        app:layout_constraintStart_toEndOf="@id/excerpt"
         app:layout_constraintTop_toTopOf="@id/title"
         tools:srcCompat="@tools:sample/avatars" />
 

@@ -19,7 +19,7 @@ class PostItemViewHolder(
 ) {
     fun bind(postItem: PostItem) = with(binding) {
         uiHelpers.setTextOrHide(title, postItem.title)
-        uiHelpers.setTextOrHide(description, postItem.description)
+        uiHelpers.setTextOrHide(excerpt, postItem.excerpt)
         imageManager.loadImageWithCorners(
                 featuredImage,
                 PHOTO_ROUNDED_CORNERS,

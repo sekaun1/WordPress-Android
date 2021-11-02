@@ -89,7 +89,7 @@ sealed class MySiteCardAndItem(open val type: Type, open val activeQuickStartIte
         ) : Card(POST_CARD) {
             data class PostItem(
                 val title: UiString?,
-                val description: UiString?,
+                val excerpt: UiString?,
                 val featuredImageUrl: String?,
                 val featuredImageCornerRadius: UiDimen = UIDimenRes(R.dimen.my_site_post_card_image_corner_radius)
             )
