@@ -11,8 +11,12 @@ import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData
 import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData.Post
 import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData.Posts
 import org.wordpress.android.ui.utils.UiString.UiStringRes
+import org.wordpress.android.ui.utils.UiString.UiStringText
 
 private const val POST_ID = "1"
+private const val POST_TITLE = "title"
+private const val POST_EXCERPT = "excerpt"
+private const val FEATURED_IMAGE_URL = "/image/url"
 
 // This class contains placeholder tests until mock data is removed
 @InternalCoroutinesApi
@@ -63,6 +67,66 @@ class PostCardBuilderTest : BaseUnitTest() {
         val postCards = buildPostCards(mockedPostsData)
 
         assertThat(postCards.filter { it.title == UiStringRes(R.string.my_site_post_card_scheduled_title) }).isNull()
+    }
+
+    /* POST CARD ITEM - TITLE */
+
+    @Test
+    fun `given post with title, when post card is built, then post title exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(title = POST_TITLE)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().title).isEqualTo(UiStringText(POST_TITLE))
+    }
+
+    @Test
+    fun `given post without title, when draft post card is built, then untitled title exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(title = null)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().title).isEqualTo(UiStringRes(R.string.my_site_untitled_post))
+    }
+
+    /* POST CARD ITEM - EXCERPT */
+
+    @Test
+    fun `given post with excerpt, when post card is built, then excerpt exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(excerpt = POST_EXCERPT)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().excerpt).isEqualTo(UiStringText(POST_EXCERPT))
+    }
+
+    @Test
+    fun `given post without excerpt, when post card is built, then excerpt not exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(excerpt = null)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().excerpt).isNull()
+    }
+
+    /* POST CARD ITEM - FEATURED IMAGE */
+
+    @Test
+    fun `given post with featured image, when post card is built, then featured image visible`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(featuredImageUrl = FEATURED_IMAGE_URL)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().isFeaturedImageVisible).isTrue
+    }
+
+    @Test
+    fun `given post without featured image, when post card is built, then featured image not visible`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post.copy(featuredImageUrl = null)))
+
+        val postCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(postCard.postItems.first().isFeaturedImageVisible).isFalse
     }
 
     private fun buildPostCards(mockedData: MockedPostsData) = builder.build(PostCardBuilderParams(mockedData))
