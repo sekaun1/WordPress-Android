@@ -33,7 +33,7 @@ class PostCardBuilder @Inject constructor() {
 
     private fun List<Post>.mapToPostItems() = this.map { post ->
         PostItem(
-                title = post.title?.let { UiStringText(it) },
+                title = post.title?.let { UiStringText(it) } ?: UiStringRes(R.string.my_site_untitled_post),
                 excerpt = post.excerpt?.let { UiStringText(it) },
                 featuredImageUrl = post.featuredImageUrl
         )
