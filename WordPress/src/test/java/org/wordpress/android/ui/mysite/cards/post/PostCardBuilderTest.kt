@@ -129,6 +129,26 @@ class PostCardBuilderTest : BaseUnitTest() {
         assertThat(postCard.postItems.first().isFeaturedImageVisible).isFalse
     }
 
+    /* POST CARD ITEM - TIME ICON */
+
+    @Test
+    fun `given draft post, when draft post card is built, then time icon is not visible`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post))
+
+        val draftPostCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(draftPostCard.postItems.first().isTimeIconVisible).isFalse
+    }
+
+    @Test
+    fun `given scheduled post, when scheduled post card is built, then time icon is visible`() {
+        val mockedPostsData = getMockedPostsData(scheduledPosts = listOf(post))
+
+        val scheduledPostCard = buildPostCards(mockedPostsData).first()
+
+        assertThat(scheduledPostCard.postItems.first().isTimeIconVisible).isTrue
+    }
+
     private fun buildPostCards(mockedData: MockedPostsData) = builder.build(PostCardBuilderParams(mockedData))
 
     private fun getMockedPostsData(
