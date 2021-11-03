@@ -27,6 +27,7 @@ class PostItemViewHolder(
                 postItem.featuredImageUrl ?: "",
                 uiHelpers.getPxOfUiDimen(WordPress.getContext(), postItem.featuredImageCornerRadius)
         )
+        featuredImage.setVisible(postItem.isFeaturedImageVisible)
         iconTime.setVisible(postItem.isTimeIconVisible)
     }
 }
