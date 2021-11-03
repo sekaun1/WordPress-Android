@@ -14,6 +14,7 @@ import org.wordpress.android.ui.mysite.MySiteCardAndItem.Type.QUICK_ACTIONS_CARD
 import org.wordpress.android.ui.mysite.MySiteCardAndItem.Type.QUICK_START_CARD
 import org.wordpress.android.ui.mysite.MySiteCardAndItem.Type.QUICK_START_DYNAMIC_CARD
 import org.wordpress.android.ui.mysite.MySiteCardAndItem.Type.SITE_INFO_CARD
+import org.wordpress.android.ui.mysite.cards.post.PostType
 import org.wordpress.android.ui.utils.ListItemInteraction
 import org.wordpress.android.ui.utils.UiDimen
 import org.wordpress.android.ui.utils.UiDimen.UIDimenRes
@@ -88,10 +89,12 @@ sealed class MySiteCardAndItem(open val type: Type, open val activeQuickStartIte
             val postItems: List<PostItem> = emptyList()
         ) : Card(POST_CARD) {
             data class PostItem(
+                val postType: PostType,
                 val title: UiString?,
                 val excerpt: UiString?,
                 val featuredImageUrl: String?,
-                val featuredImageCornerRadius: UiDimen = UIDimenRes(R.dimen.my_site_post_card_image_corner_radius)
+                val featuredImageCornerRadius: UiDimen = UIDimenRes(R.dimen.my_site_post_item_image_corner_radius),
+                val isTimeIconVisible: Boolean = postType == PostType.SCHEDULED && excerpt != null
             )
         }
     }

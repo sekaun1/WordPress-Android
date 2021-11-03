@@ -12,7 +12,8 @@ import javax.inject.Inject
 class PostCardBuilder @Inject constructor() {
     fun build(params: PostCardBuilderParams): List<PostCard> {
         val cards = mutableListOf<PostCard>()
-        params.mockedPostsData?.posts?.draft?.mapToPostItems()?.let {
+        val posts = params.mockedPostsData?.posts
+        posts?.draft?.mapToPostItems(PostType.DRAFT)?.let {
             cards.add(
                     PostCard(
                             title = UiStringRes(R.string.my_site_post_card_draft_title),
@@ -20,7 +21,7 @@ class PostCardBuilder @Inject constructor() {
                     )
             )
         }
-        params.mockedPostsData?.posts?.scheduled?.mapToPostItems()?.let {
+        posts?.scheduled?.mapToPostItems(PostType.SCHEDULED)?.let {
             cards.add(
                     PostCard(
                             title = UiStringRes(R.string.my_site_post_card_scheduled_title),
@@ -31,10 +32,17 @@ class PostCardBuilder @Inject constructor() {
         return cards
     }
 
-    private fun List<Post>.mapToPostItems() = this.map { post ->
+    private fun List<Post>.mapToPostItems(postType: PostType) = this.map { post ->
+        val excerpt = if (postType == PostType.SCHEDULED) {
+            "Today at 1:04 PM" // TODO: ashiagr - remove hardcoded text
+        } else {
+            post.excerpt
+        }
+
         PostItem(
+                postType = postType,
                 title = post.title?.let { UiStringText(it) } ?: UiStringRes(R.string.my_site_untitled_post),
-                excerpt = post.excerpt?.let { UiStringText(it) },
+                excerpt = excerpt?.let { UiStringText(it) },
                 featuredImageUrl = post.featuredImageUrl
         )
     }

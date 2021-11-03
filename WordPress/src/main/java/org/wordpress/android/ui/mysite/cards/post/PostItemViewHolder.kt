@@ -8,6 +8,7 @@ import org.wordpress.android.ui.mysite.MySiteCardAndItemViewHolder
 import org.wordpress.android.ui.utils.UiHelpers
 import org.wordpress.android.util.image.ImageManager
 import org.wordpress.android.util.image.ImageType.PHOTO_ROUNDED_CORNERS
+import org.wordpress.android.util.setVisible
 import org.wordpress.android.util.viewBinding
 
 class PostItemViewHolder(
@@ -26,5 +27,6 @@ class PostItemViewHolder(
                 postItem.featuredImageUrl ?: "",
                 uiHelpers.getPxOfUiDimen(WordPress.getContext(), postItem.featuredImageCornerRadius)
         )
+        iconTime.setVisible(postItem.isTimeIconVisible)
     }
 }
