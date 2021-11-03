@@ -5,40 +5,76 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.wordpress.android.BaseUnitTest
+import org.wordpress.android.R
 import org.wordpress.android.ui.mysite.MySiteCardAndItemBuilderParams.PostCardBuilderParams
-import org.wordpress.android.ui.mysite.cards.post.PostCardBuilder.Companion.DRAFT_TITLE
-import org.wordpress.android.ui.mysite.cards.post.PostCardBuilder.Companion.SCHEDULED_TITLE
 import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData
 import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData.Post
 import org.wordpress.android.ui.mysite.cards.post.mockdata.MockedPostsData.Posts
-import org.wordpress.android.ui.utils.UiString.UiStringText
+import org.wordpress.android.ui.utils.UiString.UiStringRes
+
+private const val POST_ID = "1"
 
 // This class contains placeholder tests until mock data is removed
 @InternalCoroutinesApi
 class PostCardBuilderTest : BaseUnitTest() {
     private lateinit var builder: PostCardBuilder
-
-    private val mockedPostsData: MockedPostsData
-        get() = MockedPostsData(
-                posts = Posts(
-                        hasPublishedPosts = true,
-                        draft = listOf(Post(id = "1", title = DRAFT_TITLE)),
-                        scheduled = listOf(Post(id = "1", title = SCHEDULED_TITLE))
-                )
-        )
+    private val post = Post(id = POST_ID)
 
     @Before
     fun setUp() {
         builder = PostCardBuilder()
     }
 
-    private fun buildPostCards() = builder.build(PostCardBuilderParams(mockedPostsData))
+    /* DRAFT POST CARD */
 
     @Test
-    fun `when toolbar is built, then card title exists`() {
-        val postCards = buildPostCards()
+    fun `given draft post, when post cards are built, then draft post card exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = listOf(post))
 
-        assertThat(postCards[0].title).isEqualTo(UiStringText(DRAFT_TITLE))
-        assertThat(postCards[1].title).isEqualTo(UiStringText(SCHEDULED_TITLE))
+        val postCards = buildPostCards(mockedPostsData)
+
+        assertThat(postCards.filter { it.title == UiStringRes(R.string.my_site_post_card_draft_title) }).isNotNull
     }
+
+    @Test
+    fun `given no draft post, when post cards are built, then draft post card not exists`() {
+        val mockedPostsData = getMockedPostsData(draftPosts = emptyList())
+
+        val postCards = buildPostCards(mockedPostsData)
+
+        assertThat(postCards.filter { it.title == UiStringRes(R.string.my_site_post_card_draft_title) }).isNull()
+    }
+
+    /* SCHEDULED POST CARD */
+
+    @Test
+    fun `given scheduled post, when post cards are built, then scheduled post card exists`() {
+        val mockedPostsData = getMockedPostsData(scheduledPosts = listOf(post))
+
+        val postCards = buildPostCards(mockedPostsData)
+
+        assertThat(postCards.filter { it.title == UiStringRes(R.string.my_site_post_card_scheduled_title) }).isNotNull
+    }
+
+    @Test
+    fun `given no scheduled post, when post cards are built, then scheduled post card not exists`() {
+        val mockedPostsData = getMockedPostsData(scheduledPosts = emptyList())
+
+        val postCards = buildPostCards(mockedPostsData)
+
+        assertThat(postCards.filter { it.title == UiStringRes(R.string.my_site_post_card_scheduled_title) }).isNull()
+    }
+
+    private fun buildPostCards(mockedData: MockedPostsData) = builder.build(PostCardBuilderParams(mockedData))
+
+    private fun getMockedPostsData(
+        draftPosts: List<Post>? = null,
+        scheduledPosts: List<Post>? = null
+    ) = MockedPostsData(
+            posts = Posts(
+                    hasPublishedPosts = true,
+                    draft = draftPosts,
+                    scheduled = scheduledPosts
+            )
+    )
 }
